@@ -1,0 +1,9 @@
+## 远程客户端
+1. open git bash
+2. $: cd ~/.ssh/
+3. $: ssh-keygen -t rsa  #press enter until it ends
+4. $: scp id_rsa.pub root@{remote_server_host}:/root/.ssh/
+
+## 服务器端
+1. $: cd ~/.ssh/  #mkdir .ssh if not exists
+2. $: cat id_rsa.pub >> authorized_keys

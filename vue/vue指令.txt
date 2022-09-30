@@ -1,0 +1,196 @@
+# 安装vue
+$: npm i vue -g
+$: npm i @vue/cli -g
+$: npm i @vue/cli-init -g
+
+# 初始化webpack 项目
+$: vue init webpack project_name
+
+
+
+
+## 指令是带有 v- 前缀的特殊属性。指令用于在表达式的值改变时，将某些行为应用到 DOM 上。这里， v-if 指令将根据表达式 seen 的值(true 或 false )来决定是否插入 p 元素。
+<div id="app">
+    <p v-if="seen">现在你看到我了</p>
+</div>
+    
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    seen: true
+  }
+})
+</script>
+
+
+## 参数在指令后以冒号指明。例如， v-bind 指令被用来响应地更新 HTML 属性：
+<div id="app">
+    <pre><a v-bind:href="url">菜鸟教程</a></pre>
+</div>
+    
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    url: 'http://www.runoob.com'
+  }
+})
+</script>
+## 另一个例子是 v-on 指令，它用于监听 DOM 事件：
+<a v-on:click="doSomething">
+## 在 input 输入框中我们可以使用 v-model 指令来实现双向数据绑定：
+<div id="app">
+    <p>{{ message }}</p>
+    <input v-model="message">
+</div>
+    
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    message: 'Runoob!'
+  }
+})
+</script>
+
+## 我们也可以使用 v-show 指令来根据条件展示元素, 等价于 v-if
+<div id="app">
+    <h1 v-show="ok">Hello!</h1>
+</div>
+	
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    ok: true
+  }
+})
+</script>
+
+## 循环使用 v-for 指令。v-for 指令需要以 site in sites 形式的特殊语法， sites 是源数据数组并且 site 是数组元素迭代的别名。v-for 可以绑定数据到数组来渲染一个列表：
+div id="app">
+  <ul>
+    <li v-for="site in sites" >
+       <a href=“site.name”>{{ site.name }}</a>
+    </li>
+  </ul>
+</div>
+
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    sites: [
+      { name: 'Runoob1' },
+      { name: 'Google' },
+      { name: 'Taobao' }
+    ]
+  }
+})
+</script>
+
+## Vue.js 为两个最为常用的指令提供了特别的缩写：
+<!-- 完整语法 -->
+<a v-bind:href="url"></a>
+<!-- 缩写 -->
+<a :href="url"></a>
+
+<!-- 完整语法 -->
+<a v-on:click="doSomething"></a>
+<!-- 缩写 -->
+<a @click="doSomething"></a>
+
+
+##  Vue.js 监听属性 watch，我们可以通过 watch 来响应数据的变化。vue.$watch监听vue属性值的变化
+      <div id = "computed_props">
+         千米 : <input type = "text" v-model = "kilometers">
+         米 : <input type = "text" v-model = "meters">
+      </div>
+	   <p id="info"></p>
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#computed_props',
+            data: {
+               kilometers : 0,
+               meters:0
+            },
+            watch : {
+               kilometers:function(val) {
+                  this.kilometers = val;
+                  this.meters = this.kilometers * 1000
+               },
+               meters : function (val) {
+                  this.kilometers = val/ 1000;
+                  this.meters = val;
+               }
+            }
+         });
+      </script>
+
+
+## class 与 style 是 HTML 元素的属性，用于设置元素的样式，我们可以用 v-bind 来设置样式属性。Vue.js v-bind 在处理 class 和 style 时， 专门增强了它。表达式的结果类型除了字符串之外，还可以是对象或数组。
+<style>
+.active {
+	width: 100px;
+	height: 100px;
+	background: green;
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div v-bind:class="{ 'active': isActive }"></div>
+</div>
+
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    isActive: true
+  }
+})
+</script>
+
+
+## v-bind:style 直接设置样式：
+<div id="app">
+  <div v-bind:style="[baseStyles, overridingStyles]">菜鸟教程</div>
+</div>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    baseStyles: {
+      color: 'green',
+      fontSize: '30px'
+    },
+	overridingStyles: {
+      'font-weight': 'bold'
+    }
+  }
+})
+</script>
+
+
+## 事件处理器 v-on:
+<!-- 阻止单击事件冒泡 -->
+<a v-on:click.stop="doThis"></a>
+
+<!-- 提交事件不再重载页面 -->
+<form v-on:submit.prevent="onSubmit"></form>
+
+<!-- 修饰符可以串联  -->
+<a v-on:click.stop.prevent="doThat"></a>
+
+<!-- 只有修饰符 -->
+<form v-on:submit.prevent></form>
+
+<!-- 添加事件侦听器时使用事件捕获模式 -->
+<div v-on:click.capture="doThis">...</div>
+
+<!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 -->
+<div v-on:click.self="doThat">...</div>
+
+<!-- click 事件只能点击一次，2.1.4版本新增 -->
+<a v-on:click.once="doThis"></a>

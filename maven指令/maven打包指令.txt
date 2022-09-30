@@ -1,0 +1,5 @@
+#普通打包, 多模块打包
+mvn clean package '-Dmaven.test.skip=true'
+
+#指定某个模块（例如mysql）打包
+mvn clean package '-Dmaven.test.skip=true' -pl mysql

@@ -1,0 +1,3 @@
+
+# 将 redis.conf 文件置于/root/redis/conf目录下
+$: docker run --name redis -p 6379:6379 -v /root/redis5.0/data:/data -v /root/redis/conf/redis.conf:/etc/redis/conf/redis.conf  -d redis:5.0 redis-server /etc/redis/conf/redis.conf

@@ -1,0 +1,49 @@
+# 1 搭建主从模式
+
+## 1.1 启动redis master
+$: docker run  --privileged=true  --name redis-master -p 6379:6379 -v /home/redis/master_data:/data -v /home/redis/master_conf/redis.conf:/etc/redis/conf/redis.conf  -d redis:latest redis-server /etc/redis/conf/redis.conf
+
+## 1.2 启动redis slave
+# # redis_slave.conf 文件内容，在主机的redis_master.conf的配置之上再加多下面的配置
+# #  'replicaof 10.8.19.244 6379'
+# #  'masterauth xuyi1117'
+$: docker run  --privileged=true --name redis-slave -p 6380:6380 -v /home/redis/slave_data:/data -v /home/redis/slave_conf/redis.conf:/etc/redis/conf/redis.conf  -d redis:latest redis-server /etc/redis/conf/redis.conf
+
+## 1.3 登录master节点的redis中 通过 'info replication' 查看slave节点信息
+redis-master$: redis-cli -p 6379 -a xuyi1117
+redis-cli$: info replication
+role:master
+connected_slaves:0
+master_failover_state:no-failover
+master_replid:08ddfff4d56862b64be9c108c2a0e60ed255d3e1
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:0
+second_repl_offset:-1
+repl_backlog_active:0
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:0
+repl_backlog_histlen:0
+
+
+(
+# 如果在第1步中配置了  replicaof 10.8.19.244 6379  masterauth xuyi1117 等，这一步就可以不进行配置
+# 3.docker进入redis-slave中配置其为slave -a表示密码 
+$: redis-cli -p 6380 -a xuyi1117
+$: slaveof 10.8.19.244 6379
+)
+
+# 2. 创建哨兵模式 sentinel.conf文件，并启动哨兵3个，至少要启动3个哨兵
+$: docker run  --privileged=true  --name redis-sentinel1 -p 26379:26379  -v /home/redis/sentinel1/sentinel.conf:/etc/redis/conf/sentinel.conf  -d redis:latest redis-sentinel /etc/redis/conf/sentinel.conf
+$: docker run  --privileged=true  --name redis-sentinel2 -p 26380:26380  -v /home/redis/sentinel2/sentinel.conf:/etc/redis/conf/sentinel.conf  -d redis:latest redis-sentinel /etc/redis/conf/sentinel.conf
+$: docker run  --privileged=true  --name redis-sentinel3 -p 26381:26381  -v /home/redis/sentinel3/sentinel.conf:/etc/redis/conf/sentinel.conf  -d redis:latest redis-sentinel /etc/redis/conf/sentinel.conf
+
+# 3. 登录其中一个哨兵检查master节点状态
+sentinel1$: redis-cli -p 26379 -a xuyi1117
+redi-cli$: info sentinel
+sentinel_masters:1
+sentinel_tilt:0
+sentinel_running_scripts:0
+sentinel_scripts_queue_length:0
+sentinel_simulate_failure_flags:0
+master0:name=master1,status=ok,address=10.8.19.244:6379,slaves=1,sentinels=3
+

@@ -1,0 +1,12 @@
+CREATE USER 'james'@'%' IDENTIFIED BY 'tiger';
+
+#mysql5 
+grant all privileges on aigateway.* to 'aigateway'@'%' identified by 'ai#aigateway#2021';
+flush privileges;
+
+
+
+#mysql8.0;
+grant all privileges on aigateway.* to 'aigateway'@'%';
+alter user 'aigateway'@'%' IDENTIFIED WITH mysql_native_password BY 'ai#aigateway#2021';
+flush privileges;

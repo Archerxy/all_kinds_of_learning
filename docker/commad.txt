@@ -1,0 +1,21 @@
+
+docker run -itv E:/tyProject/algorithm:/root/cpp gcc:8.3.0
+docker exec -it cd2caf0eb937 /bin/bash
+
+
+10.8.80.222  root/tyxx@20210222
+10.8.80.251  root/root123456#
+
+docker run -d --name nexus3 --restart=always --privileged=true -p 9607:8081 -p 8082:8082  -p 8083:8083  -p 8084:8084  -p 8085:8085  sonatype/nexus3
+
+docker run -itv E:/dockerCentosShare:/root/share -p 20200:20202 -p 30300:30302 --privileged=true centos:8 
+host:  172.17.0.1
+
+docker run --name mysql5.7 --privileged=true -e MYSQL_ROOT_PASSWORD=whty#gateway#2021 -p 3306:3306  -v /root/mysql5.7/conf:/etc/mysql/conf.d -v /root/mysql5.7/logs/error.log:/var/log/mysql/error.log -v /root/mysql5.7/data:/var/lib/mysql mysql:5.7
+
+docker run redis:5.0.3 redis-server -d --name redis -p 6379:6379  -itv /root/redis5.0:/root/redis5.0 --appendonly yes 
+
+
+cmake -G "MinGW Makefiles"
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/tassl/lib

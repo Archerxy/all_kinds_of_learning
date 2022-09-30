@@ -1,0 +1,7 @@
+#安装pcre模块，支持http-rewrite
+yum install -y pcre-devel
+
+#安装openssl支持ssl模块
+yum install -y openssl openssl-devel
+
+./configure --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_flv_module

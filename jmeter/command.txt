@@ -1,0 +1,16 @@
+jmeter -n -t 上面测试文件保存的位置\文件名.jmx -l 生成测试报告的路径\生成测试报告的名.jtl -e -o 生成html类型测试报告的路径\生成html测试报告的名字
+
+n：非GUI模式执行JMeter； 
+t：脚本文件(.jmx文件)的路径； 
+l：指定生成测试结果的保存文件(.jtl格式)，此文件必须不存在； 
+e：测试结束后，生成测试报告； 
+o：用于存放测试报告的路径；
+
+
+eg： .\jmeter -n -t ..\..\data\edu-charge.jmx -l E:\天喻教育\tps\edu-charge.jtl -e -o E:\天喻教育\tps\edu-charge
+
+
+
+
+
+

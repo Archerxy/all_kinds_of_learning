@@ -1,0 +1,18 @@
+#创建用户群组
+groupadd mysql
+useradd -M -s /sbin/nologin mysql -g mysql
+
+#mysql主文件夹以及数据文件夹授权
+chown -R mysql:mysql /home/mysql/data
+chown -R mysql:mysql /var/lib/mysql
+
+#mysql初始化
+/home/mysql/bin/mysqld --initialize --user=mysql --basedir=/home/mysql --datadir=/home/mysql/data
+
+#将my.cnf 放入 /etc/ 目录下
+
+#mysql启动
+/home/mysql/bin/mysqld --user=mysql
+
+#初次登录修改 root密码 
+alter user 'root'@'localhost' identified by 'initpwd';

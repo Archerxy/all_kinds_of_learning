@@ -1,0 +1,3 @@
+redis-cli
+
+-> config set requirepass 123456

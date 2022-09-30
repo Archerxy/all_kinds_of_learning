@@ -1,0 +1,41 @@
+# 守护模式 docker 以 -d 模式启动时 这里要配置为 no
+daemonize no
+
+# 守护模式时需指定pid文件
+# pidfile /var/run/redis.pid
+
+# 端口
+port 6379
+
+# 客户端超时时间
+timeout 300
+
+# 日志级别 debug, verbose, notice, warning
+loglevel debug
+
+ # 日志文件位置
+# logfile redis/log-redis.log
+
+# 设置数据库的数量，默认数据库为16个
+databases 16
+
+# 是否压缩存储数据默认yes
+rdbcompression yes
+
+# 指定本地数据库文件名
+# dbfilename dump.rdb
+
+# 指定本地数据库路径
+# dir redis/db/
+
+# 数据持久化
+appendonly yes
+
+# 持久化方式 no：批量持久化  always：有更新即持久化  everysec：按周期持久T=1s
+appendfsync everysec
+
+# redis配置外网访问
+protected-mode no
+
+# 配置密码
+requirepass erc777_2021

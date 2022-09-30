@@ -1,0 +1,2 @@
+# 替换/etc/yum.repo.d/ 目录下所有的文件中的 'baseusrl' 为 'baseurl'
+$: sed -i 's|baseusrl|baseurl|g' CentOS-Linux-*

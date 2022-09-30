@@ -1,0 +1,5 @@
+#1. 将外部文件复制到docker中
+docker cp dmp.sql  1dd6b67eac2b:/home
+
+#2. 执行sql文件，假设数据库名称叫test
+mysql -u root -p -D test < /home/test.sql

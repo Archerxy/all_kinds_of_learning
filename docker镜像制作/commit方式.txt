@@ -1,0 +1,44 @@
+# 1.拉取基础镜像，一般为centos:8 等
+$: docker pull centos:8
+$: docker run -it centos:8 /bin/bash
+
+# 2.在基础镜像内部实现自己要做的事
+$: make yourself images
+
+# 3.commit到自己的远程仓库
+# 命令： docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
+# -a :提交的镜像作者；
+# -c :使用Dockerfile指令来创建镜像；
+# -m :提交时的说明文字；
+# -p :在commit时，将容器暂停。
+#
+$: docker commit -a 'archer'  -m 'contract ide' 010d117c3aa4  contract-ide:v3
+sha256:57269947cb21f399f07ba13ff8bb4625d93205008effd125615fe26d831f2624
+# 登录到自己的dockerhub
+$: docker login
+# 发布镜像时，需要将image重新命名，命名格式应为: dockerhub用户名/镜像名
+$: docker tag contract-ide:v1 archerxy/contract-ide:v1
+# 推送镜像
+$: docker push archerxy/contract-ide:v1
+
+
+# 4.从远程拉取镜像Dockerfile
+`EOF
+FROM archerxy/contract-ide:v1
+
+# 中间处理自己要做的事
+RUN rm -rf /usr/local/apps/baas-contract.jar /usr/local/apps/conf/*
+COPY baas-contract.jar /usr/local/apps/
+COPY conf/* /usr/local/apps/conf/
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo 'Asia/Shanghai' >/etc/timezone
+
+# 配置workspace
+WORKDIR /usr/local/apps
+
+#启动脚本
+ENTRYPOINT ["/usr/local/apps/start.sh"]
+`EOF
+
+# 5.启动镜像 在有Dockerfile的目录下
+$: docker build -t ide:1.0 .

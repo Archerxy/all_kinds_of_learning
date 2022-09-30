@@ -1,0 +1,2 @@
+docker pull mysql:5.7
+docker run --name mysql5.7 --privileged=true -e MYSQL_ROOT_PASSWORD=whty#erc777#2021 -p 3306:3306  -v /root/mysql5.7/conf:/etc/mysql/conf.d -v /root/mysql5.7/logs:/var/log/mysql -v /root/mysql5.7/data:/var/lib/mysql mysql:5.7

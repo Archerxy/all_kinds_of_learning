@@ -1,0 +1,11 @@
+FROM archerxy/contract-ide:v1
+
+RUN rm -rf /usr/local/apps/baas-contract.jar /usr/local/apps/conf/*
+COPY baas-contract.jar /usr/local/apps/
+COPY conf/* /usr/local/apps/conf/
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo 'Asia/Shanghai' >/etc/timezone
+
+WORKDIR /usr/local/apps
+
+ENTRYPOINT ["/usr/local/apps/start.sh"]

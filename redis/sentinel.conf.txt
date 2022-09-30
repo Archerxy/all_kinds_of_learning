@@ -1,0 +1,55 @@
+# 端口
+port 26379
+
+# 守护模式
+daemonize no
+
+# 开启守护模式时，需指定pid文件
+# pidfile /var/run/redis-sentinel.pid
+
+# 日志文件，如未指定，则默认 /dev/null
+logfile ""
+
+# sentinel announce-ip <ip>
+# sentinel announce-ip 1.2.3.4
+
+# dir 工作目录
+dir /tmp
+
+# 监控住redis服务器 name=master1(自命名)，redis.master.ip=127.0.0.1，redis.master.port=6379，2=指明当有多少个sentinel认为一个master失效时，master才算真正失效。
+sentinel monitor master1 10.8.19.244 6379 2
+
+# master节点的密码
+sentinel auth-pass master1 erc777_2021
+
+# 这个配置项指定了需要多少失效时间，一个master才会被这个sentinel认为是不可用的。 单位是毫秒，默认为30秒
+sentinel down-after-milliseconds master1 30000
+
+# 这个配置项指定了在发生failover主备切换时最多可以有多少个slave同时对新的master进行 同步，这个数字越小，完成failover所需的时间就越长，但是如果这个数字越大，就意味着越 多的slave因为replication而不可用。可以通过将这个值设为 1 来保证每次只有一个slave 处于不能处理命令请求的状态。
+sentinel parallel-syncs master1 1
+
+# failover-timeout 可以用在以下这些方面： 
+# 1. 同一个sentinel对同一个master两次failover之间的间隔时间。
+# 2. 当一个slave从一个错误的master那里同步数据开始计算时间。直到slave被纠正为向正确的master那里同步数据时。
+# 3.当想要取消一个正在进行的failover所需要的时间。  
+# 4.当进行failover时，配置所有slaves指向新的master所需的最大时间。不过，即使过了这个超时，slaves依然会被正确配置为指向master，但是就不按parallel-syncs所配置的规则来了。
+sentinel failover-timeout master1 180000
+
+# ACL LOG RESET. Define the maximum entry length of the ACL Log below.
+acllog-max-len 128
+
+# 指定sentinel自身的密码
+requirepass xuyi1117
+
+
+# The password for Sentinel to authenticate with other Sentinels. If sentinel-user
+# is not configured, Sentinel will use 'default' user with sentinel-pass to authenticate.
+# sentinel sentinel-pass <password>
+
+
+# 通知型脚本:当sentinel有任何警告级别的事件发生时（比如说redis实例的主观失效和客观失效等等），将会去调用这个脚本，这时这个脚本应该通过邮件，SMS等方式去通知系统管理员关于系统不正常运行的信息。调用该脚本时，将传给脚本两个参数，一个是事件的类型，一个是事件的描述。如果sentinel.conf配置文件中配置了这个脚本路径，那么必须保证这个脚本存在于这个路径，并且是可执行的，否则sentinel无法正常启动成功。
+# sentinel notification-script mymaster /var/redis/notify.sh
+
+#  当一个master由于failover而发生改变时，这个脚本将会被调用，通知相关的客户端关于master地址已经发生改变的信息。以下参数将会在调用脚本时传给脚本
+# sentinel client-reconfig-script mymaster /var/redis/reconfig.sh
+
